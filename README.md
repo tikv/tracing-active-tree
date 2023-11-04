@@ -1,20 +1,22 @@
 # tracing-active-tree
 
-`tracing-active-tree` allows Rust developers to retrieve the current calling stack at runtime on demand, organized as [span](https://docs.rs/tracing/latest/tracing/span/index.html) trees, for both synchronous and asynchronous context.
+`tracing-active-tree` is a Rust library that allows developers to retrieve the current calling stack at runtime on demand. The calling stack is organized as [span](https://docs.rs/tracing/latest/tracing/span/index.html) trees, and can be used for both synchronous and asynchronous contexts.
 
-A typical use scenario is printing out or logging down the calling trees on error for trouble shooting. Comparing to capturing stack backtrace by [`std::backtrace::Backtrace`](https://doc.rust-lang.org/std/backtrace/struct.Backtrace.html), `tracing-active-tree` has the following advantages:
-- Supports asynchronous functions
-- Records trees with extra [attributes](https://docs.rs/tracing/latest/tracing/#configuring-attributes) of context.
+One common use case for this library is to print or log the calling trees on error for troubleshooting purposes. Unlike capturing stack backtraces using `std::backtrace::Backtrace`, `tracing-active-tree` offers several advantages:
 
-At the same time, `tracing-active-tree` has the following disadvantages:
-- [Spans](https://docs.rs/tracing/latest/tracing/span/index.html) requires prior declaration.
-- Cost more CPU.
+- It supports asynchronous functions.
+- It records trees with additional context attributes.
 
-Besides, there are similar libraries, e.g, two candidates: [async-backtrace](https://github.com/tokio-rs/async-backtrace) and [await-tree](https://github.com/risingwavelabs/await-tree/). They are great libraries, and `tracing-active-tree` referenced the implementation of them. But both of them require declaring spans using the methods provides by the library, which we think will be not friendly to existed codes. `tracing-active-tree` do not require the change current codes, but just register an extra [Layer](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/layer/trait.Layer.html) to registry of tracing [subscribers](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/index.html).
+However, `tracing-active-tree` has a few disadvantages as well:
+
+- Spans need to be declared beforehand.
+- It requires more CPU and memory resources.
+
+Two similar libraries, `async-backtrace` and `await-tree`, are also available. `tracing-active-tree` takes inspiration from their implementation. However, both `async-backtrace` and `await-tree` require declaring spans using methods provided by the library, which can be inconvenient for existing codebases. In contrast, `tracing-active-tree` does not require any changes to the existing code. It only requires registering an extra Layer to the tracing subscribers registry.
 
 ## Installation
 
-Add the following line to `Cargo.toml`:
+Add the following line to your `Cargo.toml` file:
 
 ```toml
 tracing-active-tree = { git = "https://github.com/tikv/tracing-active-tree.git", branch = "master" }
@@ -22,7 +24,7 @@ tracing-active-tree = { git = "https://github.com/tikv/tracing-active-tree.git",
 
 ## Usage
 
-*Run the following example by `cargo run --example simple`.*
+*Run the following example using `cargo run --example simple`.*
 
 1. Import the library:
 
@@ -30,7 +32,8 @@ tracing-active-tree = { git = "https://github.com/tikv/tracing-active-tree.git",
 use tracing_active_tree::layer::{self, CurrentStacksLayer};
 ```
 
-2. Creating spans which are wished to be display in the calling trees.
+2. Create spans that you wish to display in the calling trees:
+
 ```rust
 #[instrument(fields(answer = 43))]
 async fn foo() {
@@ -57,7 +60,8 @@ async fn baz() {
 }
 ```
 
-3. Register the `CurrentStacksLayer` to tracing subscriber:
+3. Register the `CurrentStacksLayer` to the tracing subscriber:
+
 ```rust
     tracing_subscriber::registry()
         .with(layer::global().clone())
@@ -65,6 +69,7 @@ async fn baz() {
 ```
 
 4. Dump the tree:
+
 ```rust
 #[instrument(skip_all)]
 async fn baz() {
@@ -78,7 +83,8 @@ fn debug_dump_current_tree() -> String {
 }
 ```
 
-5. The following will be printed to stdout:
+5. The following tree will be printed to the stdout:
+
 ```
 1
 └[examples/simple.rs:5] [span_id=1] ["foo"] [answer=43] [elapsed=114.659µs]
@@ -98,4 +104,4 @@ TODO
 
 ## License
 
-TiKV is under the Apache 2.0 license. See the [LICENSE](./LICENSE) file for details.
+`tracing-active-tree` is licensed under the Apache 2.0 license. See the [LICENSE](./LICENSE) file for more details.
