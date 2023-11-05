@@ -55,14 +55,7 @@ async fn quux(n: usize) {
     // Give the newly spawned task a chance to be scheduled.
     tokio::task::yield_now().await;
     let print = async {
-        println!(
-            "{}",
-            String::from_utf8(
-                layer::global()
-                    .fmt_bytes_with(|tree, buf| tree.traverse_with(FormatFlat::new(buf)).unwrap())
-            )
-            .unwrap()
-        );
+        println!("{}", layer::global().fmt_string());
     };
     futures::future::join_all(tasks.chain(std::iter::once(Box::pin(print) as BoxFuture<_>))).await;
 }
