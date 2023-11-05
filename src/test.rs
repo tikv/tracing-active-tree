@@ -92,6 +92,9 @@ async fn exec() {
             "selecting",
             "Box::pin(tokio::time::sleep(Duration::from_secs(1)))",
             "<step_out>",
+            "jh.map(|_| ())",
+            "<step_out>",
+            "Box::pin(foo(tx))",
             "foo",
             "bar",
             "fiz",
@@ -104,6 +107,7 @@ async fn exec() {
             "<step_out>",
             "<step_out>",
             "<step_out>",
+            "<step_out>"
         ]
     );
     assert_eq!(tree["pending"], ["pending", "<step_out>"]);
@@ -155,7 +159,6 @@ async fn buz(tx: oneshot::Sender<HashMap<String, Vec<String>>>) {
 
 #[instrument(skip_all)]
 async fn baz(tx: oneshot::Sender<HashMap<String, Vec<String>>>) {
-    println!("{}", debug_dump_current_tree());
     let _ = tx.send(collect_tree());
 }
 
@@ -187,7 +190,6 @@ async fn join_many(max: usize) -> HashMap<String, Vec<String>> {
     let (tx, rx) = oneshot::channel();
     tokio::spawn(async move {
         tokio::task::yield_now().await;
-        println!("{}", debug_dump_current_tree());
         tx.send(collect_tree()).unwrap();
         drop(v);
     });
@@ -216,9 +218,20 @@ async fn test_long_stack() {
     let (tx, rx) = oneshot::channel();
     let jh = tokio::spawn(root!(count_to_zero(20, rx)));
     tokio::task::yield_now().await;
-    println!("{}", debug_dump_current_tree());
+    let tree = collect_tree();
     tx.send(()).unwrap();
     jh.await.unwrap();
+    assert_eq!(
+        tree["count_to_zero(20, rx)"],
+        ["count_to_zero(20, rx)"]
+            .iter()
+            .copied()
+            .chain(std::iter::repeat("count_to_zero(n - 1, rx)").take(20))
+            // One extra <step_out> for the root frame.
+            .chain(std::iter::repeat("<step_out>").take(21))
+            .collect::<Vec<_>>()
+    );
+    assert_eq!(tree.len(), 1);
 }
 
 #[tokio::test]
