@@ -107,7 +107,7 @@ async fn exec() {
             "<step_out>",
             "<step_out>",
             "<step_out>",
-            "<step_out>"
+            "<step_out>",
         ]
     );
     assert_eq!(tree["pending"], ["pending", "<step_out>"]);
