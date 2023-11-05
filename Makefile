@@ -1,3 +1,8 @@
+# Copyright 2023 TiKV Project Authors. Licensed under Apache-2.0.
+
+# `nextest` is necessary for `make test` & `make unit-test` to work. Install the crate with:
+# cargo install cargo-nextest --locked
+
 export RUSTFLAGS=-Dwarnings
 
 .PHONY: default check unit-test test doc all
