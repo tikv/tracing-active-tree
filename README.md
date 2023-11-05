@@ -28,71 +28,71 @@ tracing-active-tree = { git = "https://github.com/tikv/tracing-active-tree.git",
 
 1. Import the library:
 
-```rust
-use tracing_active_tree::layer::{self, CurrentStacksLayer};
-```
+    ```rust
+    use tracing_active_tree::layer::{self, CurrentStacksLayer};
+    ```
 
-2. Create spans that you wish to display in the calling trees:
+1. Create spans that you wish to display in the calling trees:
 
-```rust
-#[instrument(fields(answer = 43))]
-async fn foo() {
-    bar().await;
-}
+    ```rust
+    #[instrument(fields(answer = 43))]
+    async fn foo() {
+        bar().await;
+    }
 
-#[instrument]
-async fn bar() {
-    futures::join!(fiz(), buz());
-}
+    #[instrument]
+    async fn bar() {
+        futures::join!(fiz(), buz());
+    }
 
-#[instrument(skip_all)]
-async fn fiz() {
-    tokio::task::yield_now().await;
-}
+    #[instrument(skip_all)]
+    async fn fiz() {
+        tokio::task::yield_now().await;
+    }
 
-#[instrument(skip_all)]
-async fn buz() {
-    baz().await;
-}
+    #[instrument(skip_all)]
+    async fn buz() {
+        baz().await;
+    }
 
-#[instrument(skip_all)]
-async fn baz() {
-}
-```
+    #[instrument(skip_all)]
+    async fn baz() {
+    }
+    ```
 
-3. Register the `CurrentStacksLayer` to the tracing subscriber:
+1. Register the `CurrentStacksLayer` to the tracing subscriber:
 
-```rust
-    tracing_subscriber::registry()
-        .with(layer::global().clone())
-        .init();
-```
+    ```rust
+        tracing_subscriber::registry()
+            .with(layer::global().clone())
+            .init();
+    ```
 
-4. Dump the tree:
+1. Dump the tree:
 
-```rust
-#[instrument(skip_all)]
-async fn baz() {
-    println!("{}", debug_dump_current_tree());
-}
+    ```rust
+    #[instrument(skip_all)]
+    async fn baz() {
+        println!("{}", debug_dump_current_tree());
+    }
 
-fn debug_dump_current_tree() -> String {
-    let layer =
-        dispatcher::get_default(|d| d.downcast_ref::<CurrentStacksLayer>().unwrap().clone());
-    layer.fmt_string()
-}
-```
+    fn debug_dump_current_tree() -> String {
+        let layer =
+            dispatcher::get_default(|d| d.downcast_ref::<CurrentStacksLayer>().unwrap().clone());
+        layer.fmt_string()
+    }
+    ```
 
-5. The following tree will be printed to the stdout:
+1. The following tree will be printed to the stdout:
 
-```
-1
-└[examples/simple.rs:5] [span_id=1] ["foo"] [answer=43] [elapsed=114.659µs]
- └[examples/simple.rs:10] [span_id=2] ["bar"] [elapsed=92.5µs]
-  ├[examples/simple.rs:15] [span_id=3] ["fiz"] [elapsed=79.072µs]
-  └[examples/simple.rs:20] [span_id=4] ["buz"] [elapsed=65.938µs]
-   └[examples/simple.rs:25] [span_id=5] ["baz"] [elapsed=59.61µs]
-```
+    ```sh
+    1
+    └[examples/simple.rs:5] [span_id=1] ["foo"] [answer=43] [elapsed=114.659µs]
+    └[examples/simple.rs:10] [span_id=2] ["bar"] [elapsed=92.5µs]
+    ├[examples/simple.rs:15] [span_id=3] ["fiz"] [elapsed=79.072µs]
+    └[examples/simple.rs:20] [span_id=4] ["buz"] [elapsed=65.938µs]
+    └[examples/simple.rs:25] [span_id=5] ["baz"] [elapsed=59.61µs]
+    ```
 
 ## Benchmark
 
