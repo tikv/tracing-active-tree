@@ -1,7 +1,7 @@
 // Copyright 2023 TiKV Project Authors. Licensed under Apache-2.0.
 
-use std::cell::RefCell;
 use futures::channel::oneshot;
+use std::cell::RefCell;
 use tracing::instrument;
 use tracing_active_tree::{frame, layer};
 use tracing_subscriber::prelude::*;
