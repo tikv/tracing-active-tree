@@ -2,17 +2,17 @@
 
 `tracing-active-tree` is a Rust library that allows developers to retrieve the current calling stack at runtime on demand. The calling stack is organized as [span](https://docs.rs/tracing/latest/tracing/span/index.html) trees, and can be used for both synchronous and asynchronous contexts.
 
-One common use case for this library is to print or log the calling trees on error for troubleshooting purposes. Unlike capturing stack backtraces using `std::backtrace::Backtrace`, `tracing-active-tree` offers several advantages:
+One common use case for this library is to print or log the calling trees on error for troubleshooting purposes. Unlike capturing stack backtraces using [`std::backtrace::Backtrace`](https://doc.rust-lang.org/std/backtrace/struct.Backtrace.html), `tracing-active-tree` offers several advantages:
 
 - It supports asynchronous functions.
-- It records trees with additional context attributes.
+- It records trees with additional context [attributes](https://docs.rs/tracing/latest/tracing/#configuring-attributes).
 
 However, `tracing-active-tree` has a few disadvantages as well:
 
-- Spans need to be declared beforehand.
+- [Spans](https://docs.rs/tracing/latest/tracing/span/index.html) need to be declared beforehand.
 - It requires more CPU and memory resources.
 
-Two similar libraries, `async-backtrace` and `await-tree`, are also available. `tracing-active-tree` takes inspiration from their implementation. However, both `async-backtrace` and `await-tree` require declaring spans using methods provided by the library, which can be inconvenient for existing codebases. In contrast, `tracing-active-tree` does not require any changes to the existing code. It only requires registering an extra Layer to the tracing subscribers registry.
+Two similar libraries, [`async-backtrace`](https://github.com/tokio-rs/async-backtrace) and [`await-tree`](https://github.com/risingwavelabs/await-tree/), are also available. `tracing-active-tree` takes inspiration from their implementation. However, both `async-backtrace` and `await-tree` require declaring spans using methods and structs provided by the library, which may be inconvenient for existing codebases. In contrast, `tracing-active-tree` does not require any changes to the existing code. It only requires registering an extra [Layer](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/layer/trait.Layer.html) to the tracing subscribers [registry](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/registry/index.html).
 
 ## Installation
 
