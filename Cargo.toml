@@ -2,7 +2,10 @@
 name = "tracing-active-tree"
 version = "0.1.0"
 edition = "2021"
-library = 1
+license = "Apache-2.0"
+authors = ["The TiKV Project Authors"]
+repository = "https://github.com/tikv/tracing-active-tree"
+description = "The Rust library to retrieve active calling trees."
 
 [features]
 default = [ ]

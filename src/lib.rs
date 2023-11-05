@@ -56,8 +56,8 @@
 //! When a tree grows too huge and referenced by too many tasks, the overhead of
 //! lock racing may make things even worse.
 //!
-//! Generally, when this layer is enabled, you'd better not to attach a span 
-//! (or, filter them out by other layers.) to a frequent called, CPU bounded 
+//! Generally, when this layer is enabled, you'd better not to attach a span
+//! (or, filter them out by other layers.) to a frequent called, CPU bounded
 //! function. Prefer adding spans to where may block or run for a long time.
 //!
 //! # Acknowledgement
