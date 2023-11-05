@@ -77,9 +77,7 @@ tracing-active-tree = { git = "https://github.com/tikv/tracing-active-tree.git",
     }
 
     fn debug_dump_current_tree() -> String {
-        let layer =
-            dispatcher::get_default(|d| d.downcast_ref::<CurrentStacksLayer>().unwrap().clone());
-        layer.fmt_string()
+        layer::global().fmt_string()
     }
     ```
 
@@ -88,10 +86,10 @@ tracing-active-tree = { git = "https://github.com/tikv/tracing-active-tree.git",
     ```sh
     1
     └[examples/simple.rs:5] [span_id=1] ["foo"] [answer=43] [elapsed=114.659µs]
-    └[examples/simple.rs:10] [span_id=2] ["bar"] [elapsed=92.5µs]
-    ├[examples/simple.rs:15] [span_id=3] ["fiz"] [elapsed=79.072µs]
-    └[examples/simple.rs:20] [span_id=4] ["buz"] [elapsed=65.938µs]
-    └[examples/simple.rs:25] [span_id=5] ["baz"] [elapsed=59.61µs]
+     └[examples/simple.rs:10] [span_id=2] ["bar"] [elapsed=92.5µs]
+      ├[examples/simple.rs:15] [span_id=3] ["fiz"] [elapsed=79.072µs]
+      └[examples/simple.rs:20] [span_id=4] ["buz"] [elapsed=65.938µs]
+       └[examples/simple.rs:25] [span_id=5] ["baz"] [elapsed=59.61µs]
     ```
 
 ## Benchmark
