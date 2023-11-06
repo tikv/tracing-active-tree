@@ -1,7 +1,7 @@
 // Copyright 2023 TiKV Project Authors. Licensed under Apache-2.0.
 
-use tracing::{dispatcher, instrument};
-use tracing_active_tree::layer::{self, CurrentStacksLayer};
+use tracing::instrument;
+use tracing_active_tree::layer;
 use tracing_subscriber::prelude::*;
 
 #[instrument(fields(answer = 43))]
@@ -30,9 +30,7 @@ async fn baz() {
 }
 
 fn debug_dump_current_tree() -> String {
-    let layer =
-        dispatcher::get_default(|d| d.downcast_ref::<CurrentStacksLayer>().unwrap().clone());
-    layer.fmt_string()
+    layer::global().fmt_string()
 }
 
 #[tokio::main(flavor = "current_thread")]
