@@ -34,11 +34,18 @@ path = "benches/oneshot.rs"
 harness = false
 
 [[bench]]
-name = "spawn_many"
-path = "benches/spawn_many.rs"
+name = "wide_tree"
+path = "benches/wide_tree.rs"
+required-features = ["coarsetime"]
 harness = false
 
 [[bench]]
-name = "spawn_depth"
-path = "benches/spawn_depth.rs"
+name = "deep_tree"
+path = "benches/deep_tree.rs"
+required-features = ["coarsetime"]
+harness = false
+
+[[bench]]
+name = "many_tasks"
+path = "benches/many_tasks.rs"
 harness = false
