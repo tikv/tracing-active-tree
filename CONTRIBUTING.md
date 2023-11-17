@@ -59,69 +59,9 @@ make test
 make check
 ```
 
-### Finding something to work on
+### Submitting a Pull Request
 
-For beginners, we have prepared many suitable tasks for you. Checkout our [Help Wanted issues](https://github.com/tikv/tracing-active-tree/issues?q=is%3Aopen+is%3Aissue+label%3Astatus%2Fhelp-wanted) for a list, in which we have also marked the difficulty level.
-
-If you are planning something big, for example, relates to multiple components or changes current behaviors, make sure to open an issue to discuss with us before going on.
-
-### Linking issues
-
-Code repositories in `tracing-active-tree` community require **ALL** the pull requests referring to its corresponding issues. In the pull request body, there **MUST** be one line starting with `Issue Number:` and linking the relevant issues via the [keyword](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword), for example:
-
-If the pull request resolves the relevant issues, and you want GitHub to close these issues automatically after it merged into the default branch, you can use the syntax (`KEYWORD #ISSUE-NUMBER`) like this:
-
-```issue-message
-Issue Number: close #123
-```
-
-If the pull request links an issue but does not close it, you can use the keyword `ref` like this:
-
-```issue-message
-Issue Number: ref #456
-```
-
-Multiple issues should use full syntax for each issue and separate by a comma, like:
-
-```issue-message
-Issue Number: close #123, ref #456
-```
-
-For pull requests trying to close issues in a different repository, contributors need to first create an issue in the same repository and use this issue to track.
-
-If the pull request body does not provide the required content, the bot will add the `do-not-merge/needs-linked-issue` label to the pull request to prevent it from being merged.
-
-### Format of the commit message
-
-The bot we use will extract the pull request title as the one-line subject and messages inside the `commit-message` code block as commit message body. For example, a pull request with title `pkg: what's changed in this one package` and body containing:
-
-    ```commit-message
-    any multiple line commit messages that go into
-    the final commit message body
-
-    * fix something 1
-    * fix something 2
-    ```
-
-will get a final commit message:
-
-```commit-message
-pkg: what's changed in this one package (#12345)
-
-any multiple line commit messages that go into
-the final commit message body
-
-* fix something 1
-* fix something 2
-```
-
-The first line is the subject (the pull request title) and should be no longer than 50 characters, the other lines should be wrapped at 72 characters (see [this blog post](https://preslav.me/2015/02/21/what-s-with-the-50-72-rule/) for why).
-
-If the change affects more than one subsystem, you can use comma to separate them like `util/codec,util/types:`.
-
-If the change affects many subsystems, you can use ```*``` instead, like ```*:```.
-
-The body of the commit message should describe why the change was made and at a high level, how the code works.
+Following the [Commit Message and Pull Request Style](https://github.com/pingcap/community/blob/master/contributors/commit-message-pr-style.md) will help with the review process by making your change easier to understand.
 
 ### Signing off the Commit
 
