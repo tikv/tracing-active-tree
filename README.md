@@ -127,7 +127,7 @@ many_tasks_with_subs    time:   [4.1975 ms 4.2936 ms 4.3886 ms]
 
 ## Contributing
 
-TODO
+If you're interested in contributing to `tracing-active-tree`, or want to build it from source, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
