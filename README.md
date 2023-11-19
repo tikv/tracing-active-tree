@@ -115,6 +115,7 @@ wide_with_subs          time:   [16.192 ms 17.383 ms 18.629 ms]
 ```
 
 > **NOTE**
+> 
 > When you tweaking the parameters of those benchmarks, you may notice that the performance regression isn't linear with the amount of tree nodes. This imples that it is possible to optimize this. They should be linear.
 
 But there isn't observable overheading when spawning many tiny tasks: 
