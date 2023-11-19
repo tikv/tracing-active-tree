@@ -98,7 +98,7 @@ TODO
 
 ## Contributing
 
-TODO
+If you're interested in contributing to `tracing-active-tree`, or want to build it from source, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
