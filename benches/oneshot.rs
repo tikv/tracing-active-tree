@@ -32,11 +32,11 @@ pub fn run(c: &mut Criterion) {
         .build()
         .unwrap();
     let _g = rt.enter();
-    c.bench_function("oneshot_baseline", |b| b.iter(|| baseline()));
+    c.bench_function("oneshot_baseline", |b| b.iter(baseline));
     tracing_subscriber::registry()
         .with(layer::global().clone())
         .init();
-    c.bench_function("oneshot_with_subs", |b| b.iter(|| with_subs()));
+    c.bench_function("oneshot_with_subs", |b| b.iter(with_subs));
 }
 
 criterion_group!(oneshot, run);
