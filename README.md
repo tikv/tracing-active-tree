@@ -94,11 +94,11 @@ tracing-active-tree = { git = "https://github.com/tikv/tracing-active-tree.git",
 
 ## Benchmark
 
-There are overheads when tracing. When tracing huge task trees, the overhead may obvious. Run benches in the `benches` folder to check it.
+There are overheads when tracing. When tracing huge task trees, the overhead may be obvious. Run benches in the `benches` folder to check it.
 
 You may also enable the feature `coarsetime` for a better performance of fetching system time.
 
-There are some examples of the overheading, generally, huge (both wide or deep) trees will bring performance penalty:
+Here are some examples of the overheads. Generally, huge (both wide or deep) trees will bring performance penalty:
 
 ```console
 > cargo bench --features="coarsetime" --bench deep_tree
@@ -106,7 +106,7 @@ deep_baseline           time:   [194.64 µs 208.66 µs 223.05 µs]
 deep_with_subs          time:   [4.7118 ms 4.8690 ms 5.0579 ms]
 ```
 
-Tracing wide(a root future waits for many futures) trees has poorer performance than tracing deep(a tree like a linked list) tree:
+Tracing wide(a root future waits for many futures) trees have poorer performance than tracing deep(a tree like a linked list) trees:
 
 ```console
 > cargo bench --features="coarsetime" --bench wide_tree
@@ -116,9 +116,9 @@ wide_with_subs          time:   [16.192 ms 17.383 ms 18.629 ms]
 
 > **NOTE**
 > 
-> When you tweaking the parameters of those benchmarks, you may notice that the performance regression isn't linear with the amount of tree nodes. This imples that it is possible to optimize this. They should be linear.
+> When you tweaking the parameters of those benchmarks, you may notice that the performance regression isn't linear with the amount of tree nodes. This implies that it is possible to optimize this. They should be linear.
 
-But there isn't observable overheading when spawning many tiny tasks: 
+But there isn't observable overheads when spawning many tiny tasks: 
 
 ```console
 > cargo bench --features="coarsetime" --bench many_tasks
