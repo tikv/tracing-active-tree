@@ -94,7 +94,37 @@ tracing-active-tree = { git = "https://github.com/tikv/tracing-active-tree.git",
 
 ## Benchmark
 
-TODO
+There are overheads when tracing. When tracing huge task trees, the overhead may be obvious. Run benches in the `benches` folder to check it.
+
+You may also enable the feature `coarsetime` for a better performance of fetching system time.
+
+Here are some examples of the overheads. Generally, huge (both wide or deep) trees will bring performance penalty:
+
+```console
+> cargo bench --features="coarsetime" --bench deep_tree
+deep_baseline           time:   [194.64 µs 208.66 µs 223.05 µs]
+deep_with_subs          time:   [4.7118 ms 4.8690 ms 5.0579 ms]
+```
+
+Tracing wide(a root future waits for many futures) trees have poorer performance than tracing deep(a tree like a linked list) trees:
+
+```console
+> cargo bench --features="coarsetime" --bench wide_tree
+wide_baseline           time:   [895.63 µs 924.51 µs 953.05 µs]
+wide_with_subs          time:   [16.192 ms 17.383 ms 18.629 ms]
+```
+
+> **NOTE**
+> 
+> When you tweaking the parameters of those benchmarks, you may notice that the performance regression isn't linear with the amount of tree nodes. This implies that it is possible to optimize this. They should be linear.
+
+But there isn't observable overheads when spawning many tiny tasks: 
+
+```console
+> cargo bench --features="coarsetime" --bench many_tasks
+many_tasks_baseline     time:   [4.3762 ms 4.4394 ms 4.5032 ms]
+many_tasks_with_subs    time:   [4.1975 ms 4.2936 ms 4.3886 ms]
+```
 
 ## Contributing
 

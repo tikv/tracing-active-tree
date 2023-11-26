@@ -26,3 +26,26 @@ coarsetime = { version = "0.1.32", optional = true }
 tokio = { version = "1.5", features = ["rt-multi-thread", "time", "macros"] }
 futures = { version = "0.3", features = ["compat", "thread-pool"] }
 futures-util = { version = "0.3", default-features = false, features = ["io"] }
+criterion = "0.5.1"
+
+[[bench]]
+name = "oneshot"
+path = "benches/oneshot.rs"
+harness = false
+
+[[bench]]
+name = "wide_tree"
+path = "benches/wide_tree.rs"
+required-features = ["coarsetime"]
+harness = false
+
+[[bench]]
+name = "deep_tree"
+path = "benches/deep_tree.rs"
+required-features = ["coarsetime"]
+harness = false
+
+[[bench]]
+name = "many_tasks"
+path = "benches/many_tasks.rs"
+harness = false
