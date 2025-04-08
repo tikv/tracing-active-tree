@@ -23,7 +23,7 @@ smallvec = "1.4"
 coarsetime = { version = "0.1.32", optional = true }
 
 [dev-dependencies]
-tokio = { version = "1.5", features = ["rt-multi-thread", "time", "macros"] }
+tokio = { version = "1.38", features = ["rt-multi-thread", "time", "macros"] }
 futures = { version = "0.3", features = ["compat", "thread-pool"] }
 futures-util = { version = "0.3", default-features = false, features = ["io"] }
 criterion = "0.5.1"
